@@ -15,17 +15,19 @@ const render_seconds = function(seconds) {
 const time = document.querySelector("#timer h1");
 const button = document.querySelector("button");
 const timer_container = document.querySelector("#timer");
+const sound = new Audio("./sound.mp3");
 
 // clicking the button logic
 const countdown = function(seconds) {
     time.innerHTML = render_seconds(seconds);
     if (seconds == 0) {
         time.innerHTML = "25<span>min</span> 00<span>sec</span>";
-        button.innerText = "start>";
+        button.innerText = "start";
         button.disabled = false;
         button.style.cursor = "pointer";
         document.body.style.backgroundColor = "white";
         timer_container.style.boxShadow = "none";
+        sound.play();
         return;
     }
     setTimeout(() => countdown(seconds - 1), 1000);
