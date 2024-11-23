@@ -24,6 +24,7 @@ const countdown = function(seconds) {
         button.textContent = "start";
         button.disabled = false;
         button.style.cursor = "pointer";
+        document.body.style.backgroundColor = "white";
         return;
     }
     setTimeout(() => countdown(seconds - 1), 1000);
