@@ -5,6 +5,7 @@ const render_seconds = function(seconds) {
 
     let minutes = Math.floor(seconds / 60);
     minutes = minutes.toString().padStart(2, '0');
+    console.log(true);
     let remaining_seconds = seconds % 60;
     remaining_seconds = remaining_seconds.toString().padStart(2, '0');
 
