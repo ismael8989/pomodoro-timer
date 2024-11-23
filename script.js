@@ -21,7 +21,7 @@ const countdown = function(seconds) {
     time.innerHTML = render_seconds(seconds);
     if (seconds == 0) {
         time.innerHTML = "25<span>min</span> 00<span>sec</span>";
-        button.textContent = "start";
+        button.innerText = "start>";
         button.disabled = false;
         button.style.cursor = "pointer";
         document.body.style.backgroundColor = "white";
