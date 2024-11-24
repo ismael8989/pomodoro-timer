@@ -32,6 +32,12 @@ time.innerHTML = render_seconds(countdown_time);
 const reset_timer = function(){
     is_timerOn = false;
 
+    mode_buttons.forEach(button => {
+        button.disabled = false;
+        button.style.filter = "grayscale(0)";
+        button.style.opacity = "1";
+    });
+
     start_button.innerText = "start";
     start_button.disabled = false;
     start_button.style.opacity = "1";
@@ -105,6 +111,12 @@ const countdown = function(seconds) {
 start_button.addEventListener("click", () => {
   is_timerOn = true;
   countdown(countdown_time);
+
+  mode_buttons.forEach(button => {
+    button.disabled = true;
+    button.style.filter = "grayscale(1)";
+    button.style.opacity = ".7";
+  });
 
   start_button.textContent = countdown_time == focus_time ? "FOCUS" : "REST";
   start_button.disabled = true;
