@@ -1,4 +1,5 @@
 import { render_seconds } from "./useful_functions.js";
+
 // html elements
 const time = document.querySelector("#timer h1");
 const start_button = document.querySelector(".buttons button");
@@ -15,12 +16,12 @@ const break_button = {
 };
 
 // import sounds
-const sound = new Audio("./resources/sound.mp3");
+const end_sound = new Audio("./resources/end-sound.mp3");
 const reset_sound = new Audio("./resources/reset-sound.mp3");
 
 // general variables
-const focus_time = 25;
-const break_time = 5;
+const focus_time = 25*60;
+const break_time = 5*60;
 let countdown_time = focus_time;
 let is_timerOn = false;
 
@@ -73,7 +74,7 @@ const countdown = function(seconds) {
 
         reset_timer();
 
-        sound.play();
+        end_sound.play();
 
         countdown_time = countdown_time == focus_time ? break_time : focus_time;
 
