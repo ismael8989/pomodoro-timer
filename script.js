@@ -1,9 +1,18 @@
 import { render_seconds } from "./useful_functions.js";
 // html elements
 const time = document.querySelector("#timer h1");
-const button = document.querySelector("button");
+const start_button = document.querySelector(".buttons button");
 const timer_container = document.querySelector("#timer");
 const reset_hint = document.querySelector("p.reset-hint");
+const mode_buttons = Array.from(document.querySelectorAll(".modes button"));
+const focus_button = {
+    element: mode_buttons[0],
+    is_active: true,
+};
+const break_button = {
+    element: mode_buttons[1],
+    is_active: false,
+};
 
 // import sounds
 const sound = new Audio("./resources/sound.mp3");
@@ -22,10 +31,10 @@ time.innerHTML = render_seconds(countdown_time);
 const reset_timer = function(){
     is_timerOn = false;
 
-    button.innerText = "start";
-    button.disabled = false;
-    button.style.opacity = "1";
-    button.style.cursor = "pointer";
+    start_button.innerText = "start";
+    start_button.disabled = false;
+    start_button.style.opacity = "1";
+    start_button.style.cursor = "pointer";
 
     document.body.style.backgroundColor = "white";
 
@@ -36,7 +45,27 @@ const reset_timer = function(){
 
 }
 
-// clicking the button logic
+// function for switching between modes
+const switch_to_focus = function(){
+    focus_button.element.classList.add("active");
+    break_button.element.classList.remove("active");
+    focus_button.is_active = true;
+    break_button.is_active = false;
+    countdown_time = focus_time;
+    time.innerHTML = render_seconds(countdown_time);
+}
+
+const switch_to_break = function(){
+    break_button.element.classList.add("active");
+    focus_button.element.classList.remove("active");
+    break_button.is_active = true;
+    focus_button.is_active = false;
+    countdown_time = break_time;
+    time.innerHTML = render_seconds(countdown_time);
+}
+
+
+// clicking the start_button logic
 const countdown = function(seconds) {
     seconds = Math.max(0 , seconds);
     time.innerHTML = render_seconds(Math.ceil(seconds));
@@ -47,6 +76,13 @@ const countdown = function(seconds) {
         sound.play();
 
         countdown_time = countdown_time == focus_time ? break_time : focus_time;
+
+        if(countdown_time == focus_time){
+            switch_to_focus();
+        }else{
+            switch_to_break();
+        }
+
         time.innerHTML = render_seconds(countdown_time);
 
         return;
@@ -65,14 +101,14 @@ const countdown = function(seconds) {
     setTimeout(() => countdown(seconds - .1), 100);
 };
 
-button.addEventListener("click", () => {
+start_button.addEventListener("click", () => {
   is_timerOn = true;
   countdown(countdown_time);
 
-  button.textContent = countdown_time == focus_time ? "FOCUS" : "REST";
-  button.disabled = true;
-  button.style.opacity = ".5";
-  button.style.cursor = "default";
+  start_button.textContent = countdown_time == focus_time ? "FOCUS" : "REST";
+  start_button.disabled = true;
+  start_button.style.opacity = ".5";
+  start_button.style.cursor = "default";
 
   timer_container.style.boxShadow = "0 0 2rem coral";
 
@@ -87,3 +123,16 @@ window.addEventListener("keypress", (e) => {
         is_timerOn = false;
     }
 })
+
+// switching between modes [focus and break]
+focus_button.element.addEventListener("click", function () {
+    if (!focus_button.is_active) {
+        switch_to_focus();
+    }
+});
+
+break_button.element.addEventListener("click", function () {
+    if (!break_button.is_active) {
+        switch_to_break();
+    }
+});
