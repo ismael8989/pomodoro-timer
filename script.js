@@ -15,26 +15,35 @@ const render_seconds = function(seconds) {
 const time = document.querySelector("#timer h1");
 const button = document.querySelector("button");
 const timer_container = document.querySelector("#timer");
-const sound = new Audio("./sound.mp3");
+const sound = new Audio("./resources/sound.mp3");
+
+// general variables
+let focus_time = 25;
+let break_time = 5;
+let countdown_time = focus_time;
+
+// display time on title
+time.innerHTML = render_seconds(countdown_time);
 
 // clicking the button logic
 const countdown = function(seconds) {
     time.innerHTML = render_seconds(seconds);
     if (seconds == 0) {
-        time.innerHTML = "25<span>min</span> 00<span>sec</span>";
         button.innerText = "start";
         button.disabled = false;
         button.style.cursor = "pointer";
         document.body.style.backgroundColor = "white";
         timer_container.style.boxShadow = "none";
         sound.play();
+        countdown_time = countdown_time == focus_time ? break_time : focus_time;
+        time.innerHTML = render_seconds(countdown_time);
         return;
     }
     setTimeout(() => countdown(seconds - 1), 1000);
 };
 
 button.addEventListener("click", () => {
-  countdown(25*60);
+  countdown(countdown_time);
   button.textContent = "FOCUS";
   button.disabled = true;
   button.style.cursor = "default";
