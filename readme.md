@@ -1,5 +1,5 @@
 ## Simple Pomodoro Timer
-fffffffff
+- ### Basic Functionality
 - you can start/reset the timer
 - you can switch between 2 modes (focus & break)
 - live demo: https://pomodoro-timer-39c6b.web.app/
